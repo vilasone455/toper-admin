@@ -1,12 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import ImageLight from '../assets/img/login-office.jpeg'
 import ImageDark from '../assets/img/login-office-dark.jpeg'
 import { GithubIcon, TwitterIcon } from '../icons'
 import { Label, Input, Button } from '@windmill/react-ui'
+import api from '../instance/api'
+import Cookies from 'js-cookie'
 
 function Login() {
+
+  const [userEmail, setuserEmail] = useState("")
+  const [userPassword, setuserPassword] = useState("")
+
+  const doLogin = async () => {
+    try {
+      let rs = await api.post("/employee/login" , {userEmail , userPassword})
+      let token = rs.data.token
+      Cookies.set("authToken" , token)
+      alert("success")
+    } catch (error) {
+      alert("failed")
+    }
+   
+  }
+
   return (
     <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
       <div className="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
@@ -30,15 +48,15 @@ function Login() {
               <h1 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Login</h1>
               <Label>
                 <span>Email</span>
-                <Input className="mt-1" type="email" placeholder="john@doe.com" />
+                <Input className="mt-1" type="email" placeholder="john@doe.com" css="" onChange={e=>setuserEmail(e.target.value)} />
               </Label>
 
               <Label className="mt-4">
                 <span>Password</span>
-                <Input className="mt-1" type="password" placeholder="***************" />
+                <Input className="mt-1" type="password" placeholder="***************" css="" onChange={e=>setuserPassword(e.target.value)} />
               </Label>
 
-              <Button className="mt-4" block tag={Link} to="/app">
+              <Button className="mt-4" block onClick={doLogin}>
                 Log in
               </Button>
 

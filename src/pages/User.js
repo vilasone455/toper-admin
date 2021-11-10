@@ -19,10 +19,12 @@ import {
 import { EditIcon, TrashIcon } from '../icons'
 
 import response from '../utils/demo/tableData'
+import api, { setAuthToken } from '../instance/api'
+import Cookies from 'js-cookie'
 // make a copy of the data, for the second table
-const response2 = response.concat([])
+//const response2 = response.concat([])
 
-function Tables() {
+function Users() {
   /**
    * DISCLAIMER: This code could be badly improved, but for the sake of the example
    * and readability, all the logic for both table are here.
@@ -38,6 +40,21 @@ function Tables() {
   // setup data for every table
   const [dataTable1, setDataTable1] = useState([])
   const [dataTable2, setDataTable2] = useState([])
+
+  useEffect(() => {
+      loadData()
+  }, [])
+
+  const loadData = async ()  => {
+      try {
+          setAuthToken(Cookies.get("authToken") || "")
+          const rs = await api.get("/user/all")
+          setDataTable2(rs.data)
+      } catch (error) {
+          alert(JSON.stringify(error.response.data))
+          alert("load failed")
+      }
+  }
 
   // pagination setup
   const resultsPerPage = 10
@@ -55,23 +72,20 @@ function Tables() {
 
   // on page change, load new sliced data
   // here you would make another server request for new data
-  useEffect(() => {
-    setDataTable1(response.slice((pageTable1 - 1) * resultsPerPage, pageTable1 * resultsPerPage))
-  }, [pageTable1])
+  //useEffect(() => {
+  //  setDataTable1(response.slice((pageTable1 - 1) * resultsPerPage, pageTable1 * resultsPerPage))
+  //}, [pageTable1])
 
   // on page change, load new sliced data
   // here you would make another server request for new data
-  useEffect(() => {
-    setDataTable2(response2.slice((pageTable2 - 1) * resultsPerPage, pageTable2 * resultsPerPage))
-  }, [pageTable2])
+  //useEffect(() => {
+  //  setDataTable2(response2.slice((pageTable2 - 1) * resultsPerPage, pageTable2 * resultsPerPage))
+  //}, [pageTable2])
 
   return (
     <>
       <PageTitle>Tables</PageTitle>
 
-      <CTA />
-
-      <SectionTitle>Table with actions</SectionTitle>
       <TableContainer className="mb-8">
         <Table>
           <TableHeader>
@@ -88,21 +102,21 @@ function Tables() {
               <TableRow key={i}>
                 <TableCell>
                   <div className="flex items-center text-sm">
-                    <Avatar className="hidden mr-3 md:block" src={user.avatar} alt="User avatar" />
+                    <Avatar className="hidden mr-3 md:block" src="" alt="User avatar" />
                     <div>
-                      <p className="font-semibold">{user.name}</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">{user.job}</p>
+                      <p className="font-semibold">{user.userName}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">Normal User</p>
                     </div>
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm">$ {user.amount}</span>
+                  <span className="text-sm">{user.userEmail}</span>
                 </TableCell>
                 <TableCell>
-                  <Badge type={user.status}>{user.status}</Badge>
+                <span className="text-sm">$ 899</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm">{new Date(user.date).toLocaleDateString()}</span>
+                  <span className="text-sm">{new Date(user.createDate).toLocaleDateString()}</span>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-4">
@@ -131,4 +145,4 @@ function Tables() {
   )
 }
 
-export default Tables
+export default Users
