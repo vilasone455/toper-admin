@@ -1,5 +1,6 @@
 import { createSlice , createEntityAdapter } from '@reduxjs/toolkit';
 import { RootState } from '../instance/store';
+import { dictornaryToArray } from '../utils/array';
 
 const blogAdapter = createEntityAdapter<any>({})
 
@@ -14,5 +15,5 @@ export const blogSlice = createSlice({
 });
 
 export const { addBlog , editBlog , delBlog } = blogSlice.actions;
-export const selectBlog = (state: RootState) => state.blog.entities;
+export const selectBlog = (state: RootState) => dictornaryToArray(state.blog.entities);
 export default blogSlice.reducer;

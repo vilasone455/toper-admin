@@ -49,6 +49,7 @@ function Users() {
       try {
           setAuthToken(Cookies.get("authToken") || "")
           const rs = await api.get("/user/all")
+          
           setDataTable2(rs.data)
       } catch (error) {
           alert(JSON.stringify(error.response.data))

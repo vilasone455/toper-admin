@@ -1,17 +1,17 @@
 import { lazy } from 'react'
+
 import Users from '../pages/User'
 
 // use lazy for better code splitting, a.k.a. load faster
 const Dashboard = lazy(() => import('../pages/Dashboard'))
-const Forms = lazy(() => import('../pages/Forms'))
-const Cards = lazy(() => import('../pages/Cards'))
-const Charts = lazy(() => import('../pages/Charts'))
-const Buttons = lazy(() => import('../pages/Buttons'))
-const Modals = lazy(() => import('../pages/Modals'))
-const Tables = lazy(() => import('../pages/Tables'))
-const Page404 = lazy(() => import('../pages/404'))
-const Blank = lazy(() => import('../pages/Blank'))
 
+const Buttons = lazy(() => import('../pages/Buttons'))
+
+const Page404 = lazy(() => import('../pages/404'))
+const Blog = lazy(() => import('../pages/Blog'))
+const Payment = lazy(() => import('../pages/Payment'))
+const Blank = lazy(() => import('../pages/Blank'))
+const Pricing = lazy(() => import('../pages/Pricing'))
 const routes = [
   {
     path: '/dashboard', // the url
@@ -19,15 +19,15 @@ const routes = [
   },
   {
     path: '/payments',
-    component: Forms,
+    component: Payment,
   },
   {
     path: '/pricings',
-    component: Cards,
+    component: Pricing,
   },
   {
     path: '/blogs',
-    component: Charts,
+    component: Blog,
   },
   {
     path: '/feedbacks',
